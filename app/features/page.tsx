@@ -16,51 +16,51 @@ import {
 const features = [
   {
     icon: <Bot className="w-10 h-10 text-primary" />,
-    title: "AI-Powered Therapy",
+    title: "AI Wellness Companion",
     description:
-      "24/7 access to empathetic AI agents trained in various therapeutic approaches, providing personalized mental health support.",
+      "Personalized emotional support designed to help you reflect, reset, and feel understood whenever you need it.",
   },
   {
     icon: <Shield className="w-10 h-10 text-primary" />,
-    title: "Blockchain Security",
+    title: "Secure by Design",
     description:
-      "Your therapy sessions are secured by blockchain technology, ensuring complete privacy and transparent record-keeping.",
+      "Built with privacy-focused technology to keep your conversations safe, protected, and fully under your control.",
   },
   {
     icon: <Brain className="w-10 h-10 text-primary" />,
-    title: "Smart Analysis",
+    title: "Emotion Intelligence",
     description:
-      "Advanced NLP and emotion detection helps understand your mental state and provide appropriate interventions.",
+      "Understands mood patterns, emotional signals, and conversation context to offer more meaningful guidance.",
   },
   {
     icon: <Activity className="w-10 h-10 text-primary" />,
-    title: "Crisis Detection",
+    title: "Safety Awareness",
     description:
-      "Real-time monitoring and emergency response protocols to ensure your safety during critical situations.",
+      "Recognizes moments of emotional distress and helps guide users toward timely support when it matters most.",
   },
   {
     icon: <Wifi className="w-10 h-10 text-primary" />,
-    title: "IoT Integration",
+    title: "Connected Wellness",
     description:
-      "Connect with smart home devices to create an ambient therapeutic environment that adapts to your needs.",
+      "Works with digital wellness tools and smart devices to create a calmer, more personalized support experience.",
   },
   {
     icon: <LineChart className="w-10 h-10 text-primary" />,
-    title: "Progress Tracking",
+    title: "Growth Insights",
     description:
-      "Detailed analytics and insights about your mental health journey, with blockchain-verified session records.",
+      "Simple, meaningful insights that help you understand your progress and emotional wellness over time.",
   },
   {
     icon: <Fingerprint className="w-10 h-10 text-primary" />,
     title: "Privacy First",
     description:
-      "End-to-end encryption and zero-knowledge proofs ensure your data remains completely confidential.",
+      "Your personal reflections stay private with secure, confidential, and user-first data protection.",
   },
   {
     icon: <Heart className="w-10 h-10 text-primary" />,
-    title: "Holistic Care",
+    title: "Whole-Person Care",
     description:
-      "Integration with wearables and health providers for comprehensive mental wellness monitoring.",
+      "Supports emotional balance through a more complete view of your habits, mood, and wellbeing.",
   },
 ];
 
@@ -73,14 +73,15 @@ export default function FeaturesPage() {
         transition={{ duration: 0.5 }}
         className="text-center mb-16"
       >
-        <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-          Platform Features
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Discover how our AI-powered platform revolutionizes mental health
-          support with cutting-edge technology and unwavering privacy
-          protection.
-        </p>
+       <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+        Features Designed for Better Mental Wellness
+      </h1>
+
+      <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        Sentivra AI brings together intelligent support, privacy-first design, and
+        meaningful wellness insights to help people feel calmer, clearer, and more in
+        control.
+      </p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -106,18 +107,35 @@ export default function FeaturesPage() {
         transition={{ duration: 0.5, delay: 0.8 }}
         className="text-center mt-16"
       >
-        <h2 className="text-2xl font-semibold mb-4">Ready to Get Started?</h2>
+        {/* <h2 className="text-2xl font-semibold mb-4">Ready to Get Started?</h2>
         <p className="text-muted-foreground mb-8">
           Join thousands of users benefiting from AI-powered mental health
           support.
         </p>
         <a
-          href="/dashboard"
+          href="/coming-soon"
           className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
         >
           Start Your Journey
           <Heart className="ml-2 w-5 h-5" />
-        </a>
+        </a> */}
+        <h2 className="text-3xl font-semibold tracking-tight mb-4">
+  A Better Conversation Starts Here
+</h2>
+
+<p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
+  Experience a new approach to mental wellness — thoughtful, private, and
+  designed to support you through every stage of life.
+</p>
+
+<a
+  href="/coming-soon"
+  className="inline-flex items-center px-7 py-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 shadow-sm hover:shadow-md"
+>
+  Start Your Journey
+  <Heart className="ml-2 w-5 h-5" />
+</a>
+        
       </motion.div>
     </div>
   );

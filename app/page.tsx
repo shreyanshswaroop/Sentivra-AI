@@ -134,11 +134,29 @@ export default function Home() {
         A Safe Space for Every Thought
       </div>
 
-      <h1 className="text-5xl font-medium leading-[0.95] tracking-[-0.06em] text-foreground md:text-7xl lg:text-[84px]">
-        Understanding You
-        <br />
-        Beyond Words
-      </h1>
+     <h1
+  className="
+    text-5xl
+    md:text-7xl
+    lg:text-[84px]
+    font-medium
+    leading-[0.95]
+    tracking-[-0.06em]
+    bg-gradient-to-b
+    from-zinc-950
+    via-zinc-800
+    to-zinc-600
+    bg-clip-text
+    text-transparent
+    dark:from-white
+    dark:via-zinc-200
+    dark:to-zinc-500
+  "
+>
+  Understanding You
+  <br />
+  Beyond Words
+</h1>
 
       <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg lg:mx-0 mx-auto">
         Sentivra provides a safe, intelligent space where you can express your
@@ -177,7 +195,7 @@ export default function Home() {
       </div>
     </motion.div>
      {/* Enhanced scroll indicator */}
-        <motion.div
+        {/* <motion.div
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -186,7 +204,7 @@ export default function Home() {
           <div className="w-6 h-10 rounded-full border-2 border-primary/20 flex items-start justify-center p-1 hover:border-primary/40 transition-colors duration-300">
             <div className="w-1 h-2 rounded-full bg-primary animate-scroll" />
           </div>
-        </motion.div>
+        </motion.div> */}
 
     {/* RIGHT MOOD CARD */}
 

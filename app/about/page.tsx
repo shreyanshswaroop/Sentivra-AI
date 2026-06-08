@@ -6,22 +6,22 @@ import { Heart, Target, Sparkles } from "lucide-react";
 
 const missions = [
   {
-    icon: <Heart className="w-8 h-8 text-primary" />,
+    icon: <Heart className="w-10 h-10 text-primary" />,
     title: "Our Mission",
     description:
-      "To democratize access to mental health support through ethical AI and blockchain technology, making quality therapeutic care available to everyone, everywhere, at any time.",
+      "Helping people feel understood, supported, and empowered through intelligent care.",
   },
   {
-    icon: <Target className="w-8 h-8 text-primary" />,
+    icon: <Target className="w-10 h-10 text-primary" />,
     title: "Our Vision",
     description:
-      "A world where mental health support is accessible, private, and personalized, powered by trusted AI agents and secured by blockchain technology.",
+      "A world where meaningful mental health support is always within reach.",
   },
   {
-    icon: <Sparkles className="w-8 h-8 text-primary" />,
+    icon: <Sparkles className="w-10 h-10 text-primary" />,
     title: "Our Values",
     description:
-      "Privacy, Innovation, Empathy, and Trust form the cornerstone of our platform, ensuring the highest standards of care and security.",
+      "Built on empathy. Protected by privacy. Driven by innovation.",
   },
 ];
 
@@ -36,11 +36,13 @@ export default function AboutPage() {
         className="text-center mb-20"
       >
         <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-          About Sentivra AI 1.0
+          Understanding Humanity Through Technology
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          We're revolutionizing mental health support by combining cutting-edge
-          AI technology with the security and transparency of blockchain.
+           At Sentivra AI, we believe mental wellness should be as accessible as the
+          technology we use every day. Our platform combines advanced AI intelligence
+          with empathy-driven design to create meaningful conversations, personalized
+          guidance, and a safe space for emotional growth.
         </p>
       </motion.div>
 

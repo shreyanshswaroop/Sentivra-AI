@@ -18,7 +18,7 @@ export default function ComingSoonPage() {
 
         <p className="mt-4 text-muted-foreground text-lg">
           We're crafting something special for Sentivra.
-          The Sign In experience will be available soon.
+          This experience will be available soon.
         </p>
 
         <div className="mt-8">
