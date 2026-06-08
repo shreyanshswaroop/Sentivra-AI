@@ -129,10 +129,10 @@ export default function FeaturesPage() {
 </p>
 
 <a
-  href="/coming-soon"
-  className="inline-flex items-center px-7 py-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 shadow-sm hover:shadow-md"
+  href="/early-access"
+  className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
 >
-  Start Your Journey
+  Request Early Access
   <Heart className="ml-2 w-5 h-5" />
 </a>
         

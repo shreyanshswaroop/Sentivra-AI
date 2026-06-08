@@ -372,7 +372,7 @@ export default function Home() {
                 />
               ))}
             </div>
-            <Button
+            {/* <Button
               onClick={() => {
                 if (currentStep < welcomeSteps.length - 1) {
                   setCurrentStep((c) => c + 1);
@@ -397,7 +397,33 @@ export default function Home() {
                   </>
                 )}
               </span>
-            </Button>
+            </Button> */}
+            <Button
+  onClick={() => {
+    if (currentStep < welcomeSteps.length - 1) {
+      setCurrentStep((c) => c + 1);
+    } else {
+      setShowDialog(false);
+      setCurrentStep(0);
+      window.location.href = "/early-access";
+    }
+  }}
+  className="relative group px-6"
+>
+  <span className="flex items-center gap-2">
+    {currentStep === welcomeSteps.length - 1 ? (
+      <>
+        Let's Begin
+        <Sparkles className="w-4 h-4 animate-pulse" />
+      </>
+    ) : (
+      <>
+        Next
+        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+      </>
+    )}
+  </span>
+</Button>
           </div>
         </DialogContent>
       </Dialog>
