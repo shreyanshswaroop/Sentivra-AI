@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const API_URL =
-    process.env.BACKEND_API_URL || "http://localhost:3001"
+  const API_URL = process.env.BACKEND_API_URL || "http://localhost:3001";
   const token = req.headers.get("Authorization");
 
   if (!token) {
@@ -10,24 +9,18 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(`${API_URL}/auth/me`, {
+    const response = await fetch(`${API_URL}/api/activity/today`, {
       headers: {
         Authorization: token,
       },
     });
 
-    if (!res.ok) {
-      return NextResponse.json(
-        { message: "Failed to fetch user data" },
-        { status: res.status }
-      );
-    }
-
-    const data = await res.json();
-    return NextResponse.json(data);
+    const data = await response.json();
+    return NextResponse.json(data, { status: response.status });
   } catch (error) {
+    console.error("Error fetching today's activities:", error);
     return NextResponse.json(
-      { message: "Server error", error },
+      { message: "Internal server error" },
       { status: 500 }
     );
   }

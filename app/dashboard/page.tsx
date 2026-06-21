@@ -375,7 +375,14 @@ export default function Dashboard() {
       const sessions = await getAllChatSessions();
 
       // Fetch today's activities
-      const activitiesResponse = await fetch("/api/activities/today");
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const activitiesResponse = await fetch("/api/activities/today", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!activitiesResponse.ok) throw new Error("Failed to fetch activities");
       const activities = await activitiesResponse.json();
 
@@ -403,7 +410,7 @@ export default function Dashboard() {
     } catch (error) {
       console.error("Error fetching daily stats:", error);
     }
-  }, []);
+  }, [user]);
 
   // Fetch stats on mount and every 5 minutes
   useEffect(() => {

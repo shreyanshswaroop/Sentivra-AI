@@ -41,22 +41,6 @@ export interface ApiResponse {
 }
 
 // ============================================================
-// BACKEND CONFIG (commented out until backend is ready)
-// ============================================================
-// const API_BASE =
-//   process.env.BACKEND_API_URL ||
-//   "https://ai-therapist-agent-backend.onrender.com";
-
-// const getAuthHeaders = () => {
-//   const token = localStorage.getItem("token");
-//   return {
-//     "Content-Type": "application/json",
-//     Authorization: token ? `Bearer ${token}` : "",
-//   };
-// };
-// ============================================================
-
-// ============================================================
 // MOCK: In-memory session store (remove when backend is ready)
 // ============================================================
 let mockSessions: ChatSession[] = [];
@@ -96,7 +80,6 @@ export const sendChatMessage = async (
   sessionId: string,
   message: string
 ): Promise<ApiResponse> => {
-  // ---- MOCK IMPLEMENTATION (uses Anthropic API directly) ----
   const session = mockSessions.find((s) => s.sessionId === sessionId);
 
   const history =
@@ -105,23 +88,26 @@ export const sendChatMessage = async (
       content: msg.content,
     })) || [];
 
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
+  const response = await fetch("/api/gemini/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1000,
-      system:
-        "You are a compassionate AI therapist named Aura. Provide supportive, empathetic responses. Keep responses concise and warm. Never diagnose or prescribe medication. Encourage professional help when the situation is serious.",
-      messages: [...history, { role: "user", content: message }],
+      message,
+      history,
     }),
   });
 
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Failed to send message");
+  }
+
   const data = await response.json();
   const replyContent =
-    data.content?.[0]?.text ||
+    data.response ||
+    data.message ||
     "I'm here to support you. Could you tell me more about what's on your mind?";
 
   if (session) {

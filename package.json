@@ -23,6 +23,7 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@elizaos/plugin-lit": "^0.1.9",
     "@excalidraw/excalidraw": "^0.17.6",
+    "@google/genai": "^2.9.0",
     "@google/generative-ai": "^0.21.0",
     "@hello-pangea/dnd": "^17.0.0",
     "@hookform/resolvers": "^3.9.0",
