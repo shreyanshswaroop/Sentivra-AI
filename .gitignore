@@ -2,8 +2,6 @@
 
 # dependencies
 /node_modules
-/backend
-./backend
 /.pnp
 .pnp.*
 .yarn/*
@@ -83,3 +81,10 @@ ignition/deployments/chain-31337
 
 # Private keys
 secrete.txt
+
+# backend
+backend/node_modules/
+backend/dist/
+backend/.env
+backend/*.log
+!backend/.env.example
