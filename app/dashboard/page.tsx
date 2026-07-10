@@ -517,7 +517,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_12%_18%,rgba(255,176,132,0.22),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(184,164,237,0.16),transparent_28%),radial-gradient(circle_at_74%_82%,rgba(164,212,197,0.20),transparent_32%),linear-gradient(180deg,#fffaf0_0%,#f7f3ea_100%)] dark:bg-[linear-gradient(180deg,#070706_0%,#11110f_100%)]">
       <Container className="pt-20 pb-8 space-y-6">
         {/* Header Section */}
         <div className="flex justify-between items-center">
@@ -538,7 +538,11 @@ export default function Dashboard() {
             </p>
           </motion.div>
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon">
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-xl border-white/70 bg-white/[0.38] shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-2xl hover:bg-white/[0.58] dark:border-white/[0.10] dark:bg-[#11120f] dark:hover:bg-[#1a1b18]"
+            >
               <Bell className="h-5 w-5" />
             </Button>
           </div>
@@ -549,8 +553,8 @@ export default function Dashboard() {
           {/* Top Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Quick Actions Card */}
-            <Card className="border-primary/10 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-primary/10 to-transparent" />
+            <Card className="relative overflow-hidden rounded-2xl border-white/[0.65] bg-white/[0.38] shadow-[0_18px_60px_rgba(31,29,24,0.10),inset_0_1px_0_rgba(255,255,255,0.82)] backdrop-blur-[28px] dark:border-white/[0.08] dark:bg-[#11120f] dark:shadow-[0_18px_60px_rgba(0,0,0,0.28)]">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.42] via-white/[0.08] to-transparent dark:from-white/[0.04]" />
               <CardContent className="p-6 relative">
                 <div className="space-y-6">
                   <div className="flex items-center gap-3">
@@ -570,7 +574,7 @@ export default function Dashboard() {
                       variant="default"
                       className={cn(
                         "w-full justify-between items-center p-6 h-auto group/button",
-                        "bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90",
+                        "bg-[#1f3d3a] text-white hover:bg-[#28524e] dark:bg-[#1f3d3a] dark:text-white dark:hover:bg-[#28524e]",
                         "transition-all duration-200 group-hover:translate-y-[-2px]"
                       )}
                       onClick={handleStartTherapy}
@@ -599,6 +603,7 @@ export default function Dashboard() {
                         className={cn(
                           "flex flex-col h-[120px] px-4 py-3 group/mood hover:border-primary/50",
                           "justify-center items-center text-center",
+                          "rounded-xl border-white/[0.72] bg-white/[0.34] shadow-[0_8px_24px_rgba(31,29,24,0.08),inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-2xl hover:bg-white/[0.55] dark:border-white/[0.08] dark:bg-[#070807] dark:hover:bg-[#161713]",
                           "transition-all duration-200 group-hover:translate-y-[-2px]"
                         )}
                         onClick={() => setShowMoodModal(true)}
@@ -619,6 +624,7 @@ export default function Dashboard() {
                         className={cn(
                           "flex flex-col h-[120px] px-4 py-3 group/ai hover:border-primary/50",
                           "justify-center items-center text-center",
+                          "rounded-xl border-white/[0.72] bg-white/[0.34] shadow-[0_8px_24px_rgba(31,29,24,0.08),inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-2xl hover:bg-white/[0.55] dark:border-white/[0.08] dark:bg-[#070807] dark:hover:bg-[#161713]",
                           "transition-all duration-200 group-hover:translate-y-[-2px]"
                         )}
                         onClick={handleAICheckIn}
@@ -640,7 +646,7 @@ export default function Dashboard() {
             </Card>
 
             {/* Today's Overview Card */}
-            <Card className="border-primary/10">
+            <Card className="rounded-2xl border-white/[0.65] bg-white/[0.38] shadow-[0_18px_60px_rgba(31,29,24,0.10),inset_0_1px_0_rgba(255,255,255,0.82)] backdrop-blur-[28px] dark:border-white/[0.08] dark:bg-[#11120f] dark:shadow-[0_18px_60px_rgba(0,0,0,0.28)]">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -654,7 +660,7 @@ export default function Dashboard() {
                     variant="ghost"
                     size="icon"
                     onClick={fetchDailyStats}
-                    className="h-8 w-8"
+                    className="h-8 w-8 rounded-full dark:hover:bg-white/[0.06]"
                   >
                     <Loader2 className={cn("h-4 w-4", "animate-spin")} />
                   </Button>
@@ -666,8 +672,9 @@ export default function Dashboard() {
                     <div
                       key={stat.title}
                       className={cn(
-                        "p-4 rounded-lg transition-all duration-200 hover:scale-[1.02]",
-                        stat.bgColor
+                        "p-4 rounded-xl border border-white/[0.45] shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] backdrop-blur-xl transition-all duration-200 hover:scale-[1.02]",
+                        stat.bgColor,
+                        "dark:border dark:border-white/[0.06] dark:bg-white/[0.04]"
                       )}
                     >
                       <div className="flex items-center gap-2">
@@ -688,7 +695,7 @@ export default function Dashboard() {
             </Card>
 
             {/* Insights Card */}
-            <Card className="border-primary/10">
+            <Card className="rounded-2xl border-white/[0.65] bg-white/[0.38] shadow-[0_18px_60px_rgba(31,29,24,0.10),inset_0_1px_0_rgba(255,255,255,0.82)] backdrop-blur-[28px] dark:border-white/[0.08] dark:bg-[#11120f] dark:shadow-[0_18px_60px_rgba(0,0,0,0.28)]">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BrainCircuit className="w-5 h-5 text-primary" />
@@ -705,12 +712,13 @@ export default function Dashboard() {
                       <div
                         key={index}
                         className={cn(
-                          "p-4 rounded-lg space-y-2 transition-all hover:scale-[1.02]",
+                          "p-4 rounded-xl border border-white/[0.45] space-y-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] backdrop-blur-xl transition-all hover:scale-[1.02]",
                           insight.priority === "high"
                             ? "bg-primary/10"
                             : insight.priority === "medium"
                             ? "bg-primary/5"
-                            : "bg-muted"
+                            : "bg-muted",
+                          "dark:border dark:border-white/[0.06] dark:bg-white/[0.04]"
                         )}
                       >
                         <div className="flex items-center gap-2">

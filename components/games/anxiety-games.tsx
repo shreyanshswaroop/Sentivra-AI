@@ -103,7 +103,7 @@ export const AnxietyGames = ({ onGamePlayed }: AnxietyGamesProps) => {
 
   return (
     <>
-      <Card className="border-primary/10">
+      <Card className="rounded-2xl border-white/[0.65] bg-white/[0.38] shadow-[0_18px_60px_rgba(31,29,24,0.10),inset_0_1px_0_rgba(255,255,255,0.82)] backdrop-blur-[28px] dark:border-white/[0.08] dark:bg-[#11120f] dark:shadow-[0_18px_60px_rgba(0,0,0,0.28)]">
         <CardHeader>
           <CardTitle className="text-xl font-semibold flex items-center gap-2">
             <Gamepad2 className="h-5 w-5 text-primary" />
@@ -122,7 +122,7 @@ export const AnxietyGames = ({ onGamePlayed }: AnxietyGamesProps) => {
                 whileTap={{ scale: 0.98 }}
               >
                 <Card
-                  className={`border-primary/10 hover:bg-primary/5 transition-colors cursor-pointer ${
+                  className={`cursor-pointer rounded-xl border-white/[0.62] bg-white/[0.34] shadow-[0_8px_24px_rgba(31,29,24,0.08),inset_0_1px_0_rgba(255,255,255,0.70)] backdrop-blur-2xl transition-colors hover:bg-white/[0.55] dark:border-white/[0.08] dark:bg-[#070807] dark:shadow-none dark:hover:bg-[#161713] ${
                     selectedGame === game.id ? "ring-2 ring-primary" : ""
                   }`}
                   onClick={() => handleGameStart(game.id)}

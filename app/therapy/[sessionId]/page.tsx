@@ -16,6 +16,8 @@ import {
   Smile,
   PlusCircle,
   MessageSquare,
+  ShieldCheck,
+  Wifi,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -424,59 +426,86 @@ export default function TherapyPage() {
     }
   };
 
+  const activeSession = sessions.find(
+    (session) => session.sessionId === sessionId
+  );
+  const activeSessionTitle =
+    activeSession?.messages[0]?.content?.slice(0, 48) || "Reflection session";
+  const lastSessionUpdate = activeSession?.updatedAt
+    ? (() => {
+        try {
+          const date = new Date(activeSession.updatedAt);
+          return isNaN(date.getTime())
+            ? "Live now"
+            : formatDistanceToNow(date, { addSuffix: true });
+        } catch (error) {
+          return "Live now";
+        }
+      })()
+    : "Live now";
+
   return (
-    <div className="relative max-w-7xl mx-auto px-4">
-      <div className="flex h-[calc(100vh-4rem)] mt-20 gap-6">
+    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(180deg,#fffaf0_0%,#f7f3ea_100%)] px-3 pb-4 pt-20 dark:bg-[linear-gradient(180deg,#070706_0%,#11110f_100%)] sm:px-5">
+      <div className="relative mx-auto flex h-[calc(100vh-6rem)] max-w-7xl gap-4 lg:gap-5">
         {/* Sidebar with chat history */}
-        <div className="w-80 flex flex-col border-r bg-muted/30">
-          <div className="p-4 border-b">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Chat Sessions</h2>
+        <aside className="hidden w-[315px] shrink-0 flex-col overflow-hidden rounded-2xl border border-white/[0.60] bg-white/[0.35] shadow-[0_18px_60px_rgba(31,29,24,0.12),inset_0_1px_0_rgba(255,255,255,0.75)] backdrop-blur-[28px] dark:border-white/[0.08] dark:bg-[#0f100f] dark:shadow-[0_18px_60px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.06)] lg:flex">
+          <div className="border-b border-white/[0.45] bg-white/20 p-5 dark:border-white/[0.06] dark:bg-transparent">
+            <div className="mb-5 flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Air sessions
+                </p>
+                <h2 className="mt-1 text-xl font-semibold tracking-normal">
+                  Chat Sessions
+                </h2>
+              </div>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={handleNewSession}
-                className="hover:bg-primary/10"
+                className="h-9 w-9 rounded-full border border-white/[0.70] bg-white/[0.45] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl hover:bg-primary hover:text-primary-foreground dark:border-white/[0.10] dark:bg-white/[0.05] dark:hover:bg-white/[0.10]"
                 disabled={isLoading}
+                aria-label="Create session"
               >
                 {isLoading ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  <PlusCircle className="w-5 h-5" />
+                  <PlusCircle className="h-4 w-4" />
                 )}
               </Button>
             </div>
             <Button
-              variant="outline"
-              className="w-full justify-start gap-2"
+              className="h-11 w-full justify-start gap-2 rounded-xl bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 dark:border dark:border-white/[0.10] dark:bg-[#181917] dark:text-foreground dark:hover:bg-[#20211f]"
               onClick={handleNewSession}
               disabled={isLoading}
             >
               {isLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <MessageSquare className="w-4 h-4" />
+                <MessageSquare className="h-4 w-4" />
               )}
               New Session
             </Button>
           </div>
 
-          <ScrollArea className="flex-1 p-4">
-            <div className="space-y-4">
+          <ScrollArea className="flex-1">
+            <div className="space-y-2 p-3">
               {sessions.map((session) => (
-                <div
+                <button
                   key={session.sessionId}
                   className={cn(
-                    "p-3 rounded-lg text-sm cursor-pointer hover:bg-primary/5 transition-colors",
+                    "w-full rounded-xl border p-3 text-left text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] backdrop-blur-2xl transition-all",
                     session.sessionId === sessionId
-                      ? "bg-primary/10 text-primary"
-                      : "bg-secondary/10"
+                      ? "border-white/[0.70] bg-white/[0.42] shadow-[0_10px_30px_rgba(31,29,24,0.10),inset_0_1px_0_rgba(255,255,255,0.78)] dark:border-white/[0.14] dark:bg-[#20211f] dark:shadow-[0_10px_30px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.08)]"
+                      : "border-white/20 bg-white/[0.12] hover:border-white/[0.60] hover:bg-white/[0.35] dark:border-white/[0.06] dark:bg-[#171816] dark:hover:border-white/[0.12] dark:hover:bg-[#20211f]"
                   )}
                   onClick={() => handleSessionSelect(session.sessionId)}
                 >
-                  <div className="flex items-center gap-2 mb-1">
-                    <MessageSquare className="w-4 h-4" />
-                    <span className="font-medium">
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/[0.55] text-foreground shadow-sm ring-1 ring-white/[0.70] backdrop-blur-xl dark:bg-black/30 dark:ring-white/[0.10]">
+                      <MessageSquare className="h-4 w-4" />
+                    </span>
+                    <span className="truncate font-medium">
                       {session.messages[0]?.content.slice(0, 30) || "New Chat"}
                     </span>
                   </div>
@@ -484,11 +513,11 @@ export default function TherapyPage() {
                     {session.messages[session.messages.length - 1]?.content ||
                       "No messages yet"}
                   </p>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs text-muted-foreground">
+                  <div className="mt-3 flex items-center justify-between gap-3 text-xs text-muted-foreground">
+                    <span>
                       {session.messages.length} messages
                     </span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="truncate">
                       {(() => {
                         try {
                           const date = new Date(session.updatedAt);
@@ -504,70 +533,70 @@ export default function TherapyPage() {
                       })()}
                     </span>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </ScrollArea>
-        </div>
+        </aside>
 
         {/* Main chat area */}
-        <div className="flex-1 flex flex-col overflow-hidden bg-white dark:bg-background rounded-lg border">
+        <main className="flex flex-1 flex-col overflow-hidden rounded-2xl border border-white/[0.65] bg-white/[0.50] shadow-[0_18px_60px_rgba(31,29,24,0.12),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-[28px] dark:border-white/[0.08] dark:bg-[#11120f] dark:shadow-[0_18px_60px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.06)]">
           {/* Chat header */}
-          <div className="p-4 border-b flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                <Bot className="w-5 h-5" />
+          <div className="px-4 py-3 sm:px-6">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#1f3d3a] text-white shadow-sm">
+                  <Bot className="h-5 w-5" />
+                  <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white bg-emerald-500 dark:border-background" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h2 className="truncate text-base font-semibold tracking-normal sm:text-lg">
+                      AI Therapist
+                    </h2>
+                    <Badge className="rounded-full bg-[#e9f5ef] text-[#245447] hover:bg-[#e9f5ef] dark:bg-[#163c35] dark:text-[#d9fff3] dark:hover:bg-[#163c35]">
+                      <Wifi className="mr-1 h-3 w-3" />
+                      On air
+                    </Badge>
+                  </div>
+                  <p className="truncate text-sm text-muted-foreground">
+                    {activeSessionTitle} • {messages.length} messages •{" "}
+                    {lastSessionUpdate}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h2 className="font-semibold">AI Therapist</h2>
-                <p className="text-sm text-muted-foreground">
-                  {messages.length} messages
-                </p>
+              <div className="hidden items-center gap-2 rounded-full border border-white/[0.70] bg-white/[0.36] px-3 py-2 text-xs font-medium text-muted-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-xl dark:border-white/[0.10] dark:bg-black/25 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] md:flex">
+                <ShieldCheck className="h-4 w-4 text-[#245447]" />
+                Private session
               </div>
             </div>
           </div>
 
           {messages.length === 0 ? (
             // Welcome screen with suggested questions
-            <div className="flex-1 flex items-center justify-center p-4">
-              <div className="max-w-2xl w-full space-y-8">
-                <div className="text-center space-y-4">
+            <div className="flex-1 overflow-y-auto px-4 py-8 sm:px-6">
+              <div className="mx-auto flex min-h-full max-w-3xl flex-col justify-center space-y-8">
+                <div className="space-y-4 text-center">
                   <div className="relative inline-flex flex-col items-center">
-                    <motion.div
-                      className="absolute inset-0 bg-primary/20 blur-2xl rounded-full"
-                      initial="initial"
-                      animate="animate"
-                      variants={glowAnimation}
-                    />
-                    <div className="relative flex items-center gap-2 text-2xl font-semibold">
-                      <div className="relative">
-                        <Sparkles className="w-6 h-6 text-primary" />
-                        <motion.div
-                          className="absolute inset-0 text-primary"
-                          initial="initial"
-                          animate="animate"
-                          variants={glowAnimation}
-                        >
-                          <Sparkles className="w-6 h-6" />
-                        </motion.div>
-                      </div>
-                      <span className="bg-gradient-to-r from-primary/90 to-primary bg-clip-text text-transparent">
-                        AI Therapist
-                      </span>
+                    <div className="relative mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-[#1f3d3a] text-white shadow-sm">
+                      <Sparkles className="h-6 w-6" />
+                      <motion.div
+                        className="absolute inset-0 rounded-full ring-8 ring-[#a4d4c5]/25"
+                        initial="initial"
+                        animate="animate"
+                        variants={glowAnimation}
+                      />
                     </div>
-                    <p className="text-muted-foreground mt-2">
-                      How can I assist you today?
+                    <h1 className="text-3xl font-semibold tracking-normal sm:text-4xl">
+                      Start a calmer conversation.
+                    </h1>
+                    <p className="mt-2 text-base text-muted-foreground">
+                      Pick a prompt or write what is present for you right now.
                     </p>
                   </div>
                 </div>
 
-                <div className="grid gap-3 relative">
-                  <motion.div
-                    className="absolute -inset-4 bg-gradient-to-b from-primary/5 to-transparent blur-xl"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                  />
+                <div className="grid gap-3 sm:grid-cols-2">
                   {SUGGESTED_QUESTIONS.map((q, index) => (
                     <motion.div
                       key={q.text}
@@ -577,7 +606,7 @@ export default function TherapyPage() {
                     >
                       <Button
                         variant="outline"
-                        className="w-full h-auto py-4 px-6 text-left justify-start hover:bg-muted/50 hover:border-primary/50 transition-all duration-300"
+                        className="h-auto min-h-20 w-full justify-start rounded-xl border-black/10 bg-white px-5 py-4 text-left text-sm leading-relaxed hover:border-[#245447]/30 hover:bg-[#f6fbf8] dark:border-white/[0.08] dark:bg-[#1a1b18] dark:text-foreground dark:hover:border-white/[0.16] dark:hover:bg-[#20211f]"
                         onClick={() => handleSuggestedQuestion(q.text)}
                       >
                         {q.text}
@@ -589,8 +618,8 @@ export default function TherapyPage() {
             </div>
           ) : (
             // Chat messages
-            <div className="flex-1 overflow-y-auto scroll-smooth">
-              <div className="max-w-3xl mx-auto">
+            <div className="flex-1 overflow-y-auto scroll-smooth px-4 py-6 sm:px-6">
+              <div className="mx-auto max-w-4xl space-y-4">
                 <AnimatePresence initial={false}>
                   {messages.map((msg) => (
                     <motion.div
@@ -599,47 +628,63 @@ export default function TherapyPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
                       className={cn(
-                        "px-6 py-8",
-                        msg.role === "assistant"
-                          ? "bg-muted/30"
-                          : "bg-background"
+                        "flex gap-3",
+                        msg.role === "user" ? "justify-end" : "justify-start"
                       )}
                     >
-                      <div className="flex gap-4">
-                        <div className="w-8 h-8 shrink-0 mt-1">
-                          {msg.role === "assistant" ? (
-                            <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center ring-1 ring-primary/20">
-                              <Bot className="w-5 h-5" />
-                            </div>
-                          ) : (
-                            <div className="w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center">
-                              <User className="w-5 h-5" />
-                            </div>
-                          )}
+                      {msg.role === "assistant" && (
+                        <div className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1f3d3a] text-white shadow-sm">
+                          <Bot className="h-4 w-4" />
                         </div>
-                        <div className="flex-1 space-y-2 overflow-hidden min-h-[2rem]">
-                          <div className="flex items-center justify-between">
-                            <p className="font-medium text-sm">
+                      )}
+                      <div
+                        className={cn(
+                          "min-w-0 max-w-[86%] rounded-2xl border px-4 py-3 shadow-sm sm:max-w-[72%]",
+                          msg.role === "assistant"
+                            ? "rounded-tl-md border-black/10 bg-white text-foreground dark:border-white/[0.08] dark:bg-[#1a1b18]"
+                            : "rounded-tr-md border-[#1f3d3a] bg-[#1f3d3a] text-white"
+                        )}
+                      >
+                        <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+                          <p
+                            className={cn(
+                              "text-sm font-semibold",
+                              msg.role === "user" && "text-white"
+                            )}
+                          >
                               {msg.role === "assistant"
                                 ? "AI Therapist"
                                 : "You"}
-                            </p>
-                            {msg.metadata?.technique && (
-                              <Badge variant="secondary" className="text-xs">
+                          </p>
+                          {msg.metadata?.technique && (
+                            <Badge
+                              variant="secondary"
+                              className="rounded-full text-xs"
+                            >
                                 {msg.metadata.technique}
-                              </Badge>
-                            )}
-                          </div>
-                          <div className="prose prose-sm dark:prose-invert leading-relaxed">
-                            <ReactMarkdown>{msg.content}</ReactMarkdown>
-                          </div>
-                          {msg.metadata?.goal && (
-                            <p className="text-xs text-muted-foreground mt-2">
-                              Goal: {msg.metadata.goal}
-                            </p>
+                            </Badge>
                           )}
                         </div>
+                        <div
+                          className={cn(
+                            "prose prose-sm max-w-none leading-relaxed dark:prose-invert",
+                            msg.role === "user" &&
+                              "prose-p:text-white prose-strong:text-white"
+                          )}
+                        >
+                          <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        </div>
+                        {msg.metadata?.goal && (
+                          <p className="mt-3 border-t border-black/10 pt-2 text-xs text-muted-foreground">
+                            Goal: {msg.metadata.goal}
+                          </p>
+                        )}
                       </div>
+                      {msg.role === "user" && (
+                        <div className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#ffb084] text-[#1f1b16] shadow-sm">
+                          <User className="h-4 w-4" />
+                        </div>
+                      )}
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -648,16 +693,18 @@ export default function TherapyPage() {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="px-6 py-8 flex gap-4 bg-muted/30"
+                    className="flex items-start gap-3"
                   >
-                    <div className="w-8 h-8 shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center ring-1 ring-primary/20">
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      </div>
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1f3d3a] text-white shadow-sm">
+                      <Loader2 className="h-4 w-4 animate-spin" />
                     </div>
-                    <div className="flex-1 space-y-2">
-                      <p className="font-medium text-sm">AI Therapist</p>
-                      <p className="text-sm text-muted-foreground">Typing...</p>
+                    <div className="rounded-2xl rounded-tl-md border border-black/10 bg-white px-4 py-3 shadow-sm dark:border-white/[0.08] dark:bg-[#1a1b18]">
+                      <p className="text-sm font-semibold">AI Therapist</p>
+                      <div className="mt-2 flex items-center gap-1.5">
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground/60" />
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground/60 [animation-delay:150ms]" />
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground/60 [animation-delay:300ms]" />
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -667,12 +714,12 @@ export default function TherapyPage() {
           )}
 
           {/* Input area */}
-          <div className="border-t bg-background/50 backdrop-blur supports-[backdrop-filter]:bg-background/50 p-4">
+          <div className="p-3 sm:p-4">
             <form
               onSubmit={handleSubmit}
-              className="max-w-3xl mx-auto flex gap-4 items-end relative"
+              className="mx-auto flex max-w-4xl items-end gap-3 rounded-2xl border border-white/[0.70] bg-white/[0.42] p-2 shadow-[0_12px_36px_rgba(31,29,24,0.10),inset_0_1px_0_rgba(255,255,255,0.82)] backdrop-blur-2xl transition-all focus-within:border-[#245447]/35 focus-within:ring-4 focus-within:ring-[#a4d4c5]/20 dark:border-white/[0.10] dark:bg-[#070807] dark:shadow-[0_12px_36px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.05)]"
             >
-              <div className="flex-1 relative group">
+              <div className="relative flex-1">
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
@@ -682,10 +729,8 @@ export default function TherapyPage() {
                       : "Ask me anything..."
                   }
                   className={cn(
-                    "w-full resize-none rounded-2xl border bg-background",
-                    "p-3 pr-12 min-h-[48px] max-h-[200px]",
-                    "focus:outline-none focus:ring-2 focus:ring-primary/50",
-                    "transition-all duration-200",
+                    "max-h-[180px] min-h-[48px] w-full resize-none border-0 bg-transparent p-3 pr-2 text-base leading-relaxed",
+                    "focus:outline-none focus:ring-0",
                     "placeholder:text-muted-foreground/70",
                     (isTyping || isChatPaused) &&
                       "opacity-50 cursor-not-allowed"
@@ -699,38 +744,35 @@ export default function TherapyPage() {
                     }
                   }}
                 />
-                <Button
-                  type="submit"
-                  size="icon"
-                  className={cn(
-                    "absolute right-1.5 bottom-3.5 h-[36px] w-[36px]",
-                    "rounded-xl transition-all duration-200",
-                    "bg-primary hover:bg-primary/90",
-                    "shadow-sm shadow-primary/20",
-                    (isTyping || isChatPaused || !message.trim()) &&
-                      "opacity-50 cursor-not-allowed",
-                    "group-hover:scale-105 group-focus-within:scale-105"
-                  )}
-                  disabled={isTyping || isChatPaused || !message.trim()}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleSubmit(e);
-                  }}
-                >
-                  <Send className="w-4 h-4" />
-                </Button>
               </div>
+              <Button
+                type="submit"
+                size="icon"
+                className={cn(
+                  "mb-1 h-10 w-10 shrink-0 rounded-full bg-[#1f3d3a] text-white shadow-sm transition-all hover:bg-[#28524e]",
+                  (isTyping || isChatPaused || !message.trim()) &&
+                    "cursor-not-allowed opacity-45"
+                )}
+                disabled={isTyping || isChatPaused || !message.trim()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmit(e);
+                }}
+                aria-label="Send message"
+              >
+                <Send className="h-4 w-4" />
+              </Button>
             </form>
-            <div className="mt-2 text-xs text-center text-muted-foreground">
-              Press <kbd className="px-2 py-0.5 rounded bg-muted">Enter ↵</kbd>{" "}
-              to send,
-              <kbd className="px-2 py-0.5 rounded bg-muted ml-1">
+            <div className="mt-2 hidden text-center text-xs text-muted-foreground sm:block">
+              Press <kbd className="rounded bg-muted px-2 py-0.5">Enter</kbd>{" "}
+              to send,{" "}
+              <kbd className="ml-1 rounded bg-muted px-2 py-0.5">
                 Shift + Enter
               </kbd>{" "}
               for new line
             </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );
