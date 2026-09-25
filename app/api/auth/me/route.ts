@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { connectMongo } from "@/lib/server/mongodb";
+import { Session, User } from "@/lib/server/auth-models";
+import { verifyAuthToken } from "@/lib/server/jwt";
+
+export const runtime = "nodejs";
 
 export async function GET(req: NextRequest) {
-  const API_URL =
-    process.env.BACKEND_API_URL || "http://localhost:3001"
   const token = req.headers.get("Authorization");
 
   if (!token) {
@@ -10,25 +13,38 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(`${API_URL}/auth/me`, {
-      headers: {
-        Authorization: token,
-      },
+    const rawToken = token.replace("Bearer ", "");
+    const decoded = verifyAuthToken(rawToken);
+
+    await connectMongo();
+
+    const session = await Session.findOne({
+      token: rawToken,
+      expiresAt: { $gt: new Date() },
     });
 
-    if (!res.ok) {
+    if (!session) {
       return NextResponse.json(
-        { message: "Failed to fetch user data" },
-        { status: res.status }
+        { message: "Invalid authentication token" },
+        { status: 401 }
       );
     }
 
-    const data = await res.json();
-    return NextResponse.json(data);
+    const user = await User.findById(decoded.userId).select("-password");
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 401 });
+    }
+
+    session.lastActive = new Date();
+    await session.save();
+
+    return NextResponse.json({ user });
   } catch (error) {
+    console.error("Session lookup error:", error);
     return NextResponse.json(
-      { message: "Server error", error },
-      { status: 500 }
+      { message: "Invalid authentication token" },
+      { status: 401 }
     );
   }
 }

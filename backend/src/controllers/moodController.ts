@@ -29,15 +29,19 @@ export const createMood = async (
     await mood.save();
     logger.info(`Mood entry created for user ${userId}`);
 
-    // Send mood update event to Inngest
-    await sendMoodUpdateEvent({
-      userId,
-      mood: score,
-      note,
-      context,
-      activities,
-      timestamp: mood.timestamp,
-    });
+    // Mood tracking should not fail if the async event pipeline is unavailable.
+    try {
+      await sendMoodUpdateEvent({
+        userId,
+        mood: score,
+        note,
+        context,
+        activities,
+        timestamp: mood.timestamp,
+      });
+    } catch (eventError) {
+      logger.error("Mood entry saved, but mood update event failed:", eventError);
+    }
 
     res.status(201).json({
       success: true,

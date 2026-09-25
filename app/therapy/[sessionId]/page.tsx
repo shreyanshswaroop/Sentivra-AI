@@ -150,7 +150,7 @@ export default function TherapyPage() {
           const newSessionId = await createChatSession();
           console.log("New session created:", newSessionId);
           setSessionId(newSessionId);
-          window.history.pushState({}, "", `/therapy/${newSessionId}`);
+          window.history.replaceState({}, "", `/therapy/${newSessionId}`);
         } else {
           console.log("Loading existing chat session:", sessionId);
           try {
